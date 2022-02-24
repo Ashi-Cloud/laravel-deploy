@@ -1,0 +1,59 @@
+version: '2.0'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: saqijaan/php
+    container_name: sms_php_service
+    restart: unless-stopped
+    tty: true
+    volumes:
+       - ./:/var/www/html/
+       - ./.docker/supervisor:/etc/supervisor/conf.d
+    environment:
+      SERVICE_NAME: sms_php_service
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html/
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: sms_webserver
+    restart: unless-stopped
+    tty: true
+    volumes:
+       - ./:/var/www/html
+       - .docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+      # - "443:443"
+    networks:
+      - app-network
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.32
+    container_name: sms_db
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./.mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: sms_database
+      MYSQL_ROOT_PASSWORD: '@Sms?!@345'
+      SERVICE_TAGS: dev
+      SERVICE_NAME: sms_mysql
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
