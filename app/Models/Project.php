@@ -1,0 +1,109 @@
+<?php
+
+namespace App\Models;
+
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Project extends Model
+{
+    use HasFactory;
+
+    protected $guarded = [];
+    protected $hidden = [
+        'private_key',
+        'password'
+    ];
+
+    const TYPE_PRODUCTION = 'production';
+    const TYPE_STAGING = 'staging';
+    const TYPE_DEVELOPMENT = 'development';
+    const TYPE_QA = 'qa';
+
+    public function deployments()
+    {
+        return $this->hasMany(Deployment::class);
+    }
+
+    public function scopeWithLastDeployed(Builder $builder)
+    {
+        return $builder->addSelect([
+            'last_deployed' => Deployment::query()
+                ->select('updated_at')
+                ->whereColumn('project_id', 'projects.id')
+                ->latest()
+                ->limit(1)
+        ]);
+    }
+
+    public function isPasswordAuthentication()
+    {
+        return $this->authentication_type == 'password';
+    }
+
+    public function isPrivateKeyAuthentication()
+    {
+        return $this->authentication_type == 'private_key';
+    }
+
+    public function appendLog($log)
+    {
+        $deployment = $this->deployments()->active()->first();
+        if ( !$deployment ){
+            return;
+        }
+        $deployment->refresh();
+        $deployment->logs .= $log."\n";
+        $deployment->save();
+    }
+
+    public function addFormatedLog($log)
+    {
+        // $fLog = "***************************************\n";
+        $fLog = $log."\n"; 
+        $fLog .= "***************************************\n";
+        return $this->appendLog($fLog); 
+    }
+
+
+    public function createOrFindActiveDeployment()
+    {
+        $deployment = $this->getActiveDeployment();
+        if ( !$deployment ){
+            return $this->createNewDeployment();
+        }
+
+        return $deployment;
+    }
+
+    public function createNewDeployment()
+    {
+        return $this->deployments()->create([
+            'is_active' => true,
+            'runtime' => 0,
+            'status' => Deployment::STATUS_RUNNING,
+        ]);
+    }
+
+    public function getActiveDeployment()
+    {
+        return $this->deployments()->active()->first();
+    }
+
+    public function closeActiveDeployment($status)
+    {
+        $deployment = $this->getActiveDeployment();
+
+        if ( !$deployment ){
+            return;
+        }
+
+        return $deployment->update([
+            'is_active' => false,
+            'runtime' => now()->diffInMilliseconds($deployment->created_at),
+            'status' => $status,
+        ]);
+    }
+}
