@@ -6,6 +6,7 @@ use App\Models\Deployment;
 use App\Services\Deploy\DeployApplication;
 use App\Services\Deploy\DeploymentTasks\SetupDirectories;
 use App\Services\Deploy\DeploymentTasks\VerifyDeployDirectory;
+use App\Services\Deploy\Laravel\Tasks\FinalizeDeployment;
 use App\Services\Deploy\Laravel\Tasks\PrepareDeployment;
 use App\Services\Deploy\Laravel\Tasks\UpdateCode;
 use App\Services\Deploy\Laravel\Tasks\UpdateSharedFilesAndDirectories;
@@ -17,7 +18,8 @@ class DeployLaravelApplication extends DeployApplication
       SetupDirectories::class,
       PrepareDeployment::class,
       UpdateCode::class,
-      UpdateSharedFilesAndDirectories::class
+      UpdateSharedFilesAndDirectories::class,
+      FinalizeDeployment::class
    ];
 
    public function deploy()

@@ -1,10 +1,12 @@
 <!-- Left Side Of Navbar -->
-<ul class="navbar-nav ps-5">
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('projects.index') }}">{{ __('Projects') }}</a>
-    </li>                
-</ul>
+@auth
+    <ul class="navbar-nav ps-5">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('projects.index') }}">{{ __('Projects') }}</a>
+        </li>
+    </ul>
 
+@endauth
 <!-- Right Side Of Navbar -->
 <ul class="navbar-nav ms-auto">
     <!-- Authentication Links -->
@@ -28,8 +30,8 @@
 
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
+                    onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
                 </a>
 
