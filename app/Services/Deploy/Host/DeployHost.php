@@ -3,6 +3,7 @@
 namespace App\Services\Deploy\Host;
 
 use App\Models\Project;
+use App\Models\Server;
 use App\Services\Deploy\Traits\PrivateKeyManager;
 use Closure;
 use Spatie\Ssh\Ssh;
@@ -13,6 +14,7 @@ class DeployHost extends Ssh
 
     private $output;
     private Project $project;
+    private Server $server;
 
     protected $password = null;
     protected $sshPassPath;
@@ -25,7 +27,7 @@ class DeployHost extends Ssh
 
     public static function createFromProject(Project $project, Closure $output): self
     {
-        return (new static($project->user, $project->host, $project->port))
+        return (new static($project->server->user, $project->server->host, $project->server->port))
             ->setProject($project)
             ->onOutput($output)
             ->disableStrictHostKeyChecking()
@@ -131,13 +133,14 @@ class DeployHost extends Ssh
     protected function setProject(Project $project): self
     {
         $this->project = $project;
+        $this->server = $project->server;
 
-        if ($project->isPasswordAuthentication()) {
-            return $this->usePassword($project->password);
+        if ($this->server->isPasswordAuthentication()) {
+            return $this->usePassword($this->server->password);
         }
 
-        $this->keyPath = "keys/{$project->user}/";
-        return $this->createKeyFile($project)
+        $this->keyPath = "keys/{$this->server->user}/";
+        return $this->createKeyFile($this->server)
             ->usePrivateKey($this->getPrivateKeyPath());
     }
 

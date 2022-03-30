@@ -2,13 +2,14 @@
 
 namespace App\Services\Deploy\Laravel;
 
+use Exception;
 use App\Models\Deployment;
 use App\Services\Deploy\DeployApplication;
-use App\Services\Deploy\DeploymentTasks\SetupDirectories;
-use App\Services\Deploy\DeploymentTasks\VerifyDeployDirectory;
-use App\Services\Deploy\Laravel\Tasks\FinalizeDeployment;
-use App\Services\Deploy\Laravel\Tasks\PrepareDeployment;
 use App\Services\Deploy\Laravel\Tasks\UpdateCode;
+use App\Services\Deploy\Laravel\Tasks\PrepareDeployment;
+use App\Services\Deploy\DeploymentTasks\SetupDirectories;
+use App\Services\Deploy\Laravel\Tasks\FinalizeDeployment;
+use App\Services\Deploy\DeploymentTasks\VerifyDeployDirectory;
 use App\Services\Deploy\Laravel\Tasks\UpdateSharedFilesAndDirectories;
 
 class DeployLaravelApplication extends DeployApplication
@@ -24,15 +25,24 @@ class DeployLaravelApplication extends DeployApplication
 
    public function deploy()
    {
-      $this->project->createOrFindActiveDeployment();
       try {
+         $this->project->createOrFindActiveDeployment();
          parent::deploy();
          $this->project->appendLog('Deployment Completed.');
          $this->project->closeActiveDeployment(Deployment::STATUS_SUCCESS);
-      } catch (\Exception $ex) {
+      } catch (Exception $ex) {
          $this->project->appendLog('Error while Deploying: ' . $ex->getMessage());
       } finally {
          $this->project->closeActiveDeployment(Deployment::STATUS_FAILED);
+      }
+   }
+
+   public function __destruct()
+   {
+      try {
+         $this->project->closeActiveDeployment(Deployment::STATUS_FAILED);
+      } catch (\Exception $th) {
+         //throw $th;
       }
    }
 }

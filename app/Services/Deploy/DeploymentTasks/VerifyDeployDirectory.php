@@ -14,7 +14,7 @@ class VerifyDeployDirectory extends Task
 
         if (!$deployRoot || !$this->host->test("[ -d {$deployRoot} ]") ){
             $this->addStatusLog(self::STATUS_ERRORED, "Invalid Deploy Directory");
-            throw new Exception("Invalid Deploy Directory given.");
+            throw new Exception("Invalid Deploy Directory given: {$deployRoot}");
         }
 
         $this->addStatusLog(self::STATUS_COMPLETED);

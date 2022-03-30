@@ -98,4 +98,16 @@ class Project extends Model
             'status' => $status,
         ]);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        self::deleting(function(Project $project){
+            // $project->deployments->each(function($deployment){
+            //     $deployment->delete();
+            // });
+            $project->deployments()->delete();
+        });
+    }
 }

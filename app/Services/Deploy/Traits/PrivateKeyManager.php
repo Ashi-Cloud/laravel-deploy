@@ -2,7 +2,7 @@
 
 namespace App\Services\Deploy\Traits;
 
-use App\Models\Project;
+use App\Models\Server;
 use Illuminate\Support\Facades\Storage;
 
 trait PrivateKeyManager
@@ -11,10 +11,10 @@ trait PrivateKeyManager
     private $keyPath = "keys/";
     private $keyName = "private_key.pem";
 
-    private function createKeyFile(Project $project): self
+    private function createKeyFile(Server $server): self
     {
         if ( !$this->isKeyExists() ){
-            Storage::disk($this->disk)->put($this->getKeyFilePathWithName(),$project->private_key."\n");
+            Storage::disk($this->disk)->put($this->getKeyFilePathWithName(),$server->private_key."\n");
         }
 
         return $this;

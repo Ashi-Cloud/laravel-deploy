@@ -29,4 +29,15 @@ class Server extends Model
     {
         return $this->hasMany(Project::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        self::deleting(function(self $server){
+            $server->projects->each(function($project){
+                $project->delete();
+            });
+        });
+    }
 }
