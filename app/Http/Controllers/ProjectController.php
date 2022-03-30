@@ -2,11 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Projects\ProjectUpdateRequest;
+use App\Models\Server;
 use App\Models\Project;
+use App\Http\Requests\Projects\ProjectUpdateRequest;
 
 class ProjectController
 {
+    public function __construct()
+    {
+        view()->composer([
+            'projects.create',
+            'projects.edit'
+        ],function($view){
+            $servers = Server::query()->get(['id','name']);
+            $view->with('servers',$servers);
+            return $view;
+        });    
+    }
+    
     public function index()
     {
         $projects = Project::query()->withLastDeployed()->paginate(50);

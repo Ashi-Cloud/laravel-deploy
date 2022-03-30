@@ -10,17 +10,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Project extends Model
 {
     use HasFactory;
-
+    
     protected $guarded = [];
-    protected $hidden = [
-        'private_key',
-        'password'
-    ];
 
     const TYPE_PRODUCTION = 'production';
     const TYPE_STAGING = 'staging';
     const TYPE_DEVELOPMENT = 'development';
     const TYPE_QA = 'qa';
+    
+
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
+    }
 
     public function deployments()
     {
@@ -36,16 +38,6 @@ class Project extends Model
                 ->latest()
                 ->limit(1)
         ]);
-    }
-
-    public function isPasswordAuthentication()
-    {
-        return $this->authentication_type == 'password';
-    }
-
-    public function isPrivateKeyAuthentication()
-    {
-        return $this->authentication_type == 'private_key';
     }
 
     public function appendLog($log)

@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\DeploymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ServerController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\DeploymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::resource('projects', ProjectController::class);
+    Route::resource('servers', ServerController::class);
     Route::get('projects/{project}/deployments', DeploymentController::class)->name('projects.deployments');
 
 });
