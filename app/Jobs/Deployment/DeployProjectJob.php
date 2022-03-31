@@ -2,14 +2,16 @@
 
 namespace App\Jobs\Deployment;
 
+use App\Models\Deployment;
+use Exception;
 use App\Models\Project;
-use App\Services\Deploy\Laravel\DeployLaravelApplication;
 use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Services\Deploy\Laravel\DeployLaravelApplication;
 
 
 class DeployProjectJob implements ShouldQueue
@@ -38,8 +40,14 @@ class DeployProjectJob implements ShouldQueue
      */
     public function handle()
     {
-        (new DeployLaravelApplication($this->project, function($type, $line){
-            $this->project->appendLog( Str::of($type)->title()." : ".$line );
-        }))->deploy();
+        try {
+            (new DeployLaravelApplication($this->project, function ($type, $line) {
+                $this->project->appendLog(Str::of($type)->title() . " : " . $line);
+            }))->deploy();
+        } catch (Exception $ex) {
+            $this->project->appendLog("Error: {$ex->getMessage()}");
+        } finally {
+            $this->project->closeActiveDeployment(Deployment::STATUS_FAILED);
+        }
     }
 }
