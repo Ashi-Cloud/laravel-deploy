@@ -36,6 +36,8 @@
         </main>
     </div>
 
+    @stack('modals')
+    
     @include('layouts.js')
     @stack('js')
 </body>

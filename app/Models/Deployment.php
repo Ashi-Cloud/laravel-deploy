@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Deployment extends Model
@@ -29,11 +30,23 @@ class Deployment extends Model
 
     public function getFormattedLog()
     {
-        return str_replace("\t","    ", nl2br($this->logs));
+        return str_replace("\t", "", nl2br($this->logs));
     }
 
     public function getShortLog()
     {
         return Str::of(strip_tags($this->getFormattedLog()))->limit(200);
+    }
+
+    public function isActive()
+    {
+        return $this->is_active;
+    }
+
+    protected function runtime(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) =>  $this->isActive() ?  now()->diffInMilliseconds($this->created_at) : $value 
+        );
     }
 }

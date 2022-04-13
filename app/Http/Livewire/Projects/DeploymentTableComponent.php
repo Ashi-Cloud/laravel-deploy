@@ -4,10 +4,14 @@ namespace App\Http\Livewire\Projects;
 
 use App\Models\Project;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class DeploymentTableComponent extends Component
 {
 
+    use WithPagination;
+    
+    protected $paginationTheme = 'bootstrap';
     public Project $project;
 
     protected $listeners = [

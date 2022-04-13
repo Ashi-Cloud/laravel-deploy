@@ -42,11 +42,7 @@ class DeployProjectComponent extends Component
         if ( !$activeDeployment ){
             return null;
         }
-
-        if ( now()->diffInSeconds($activeDeployment->updated_at) < 60 ){
-            $this->emit('deployment-updated');
-        }
-
+        
         return $activeDeployment;
     }
 }
