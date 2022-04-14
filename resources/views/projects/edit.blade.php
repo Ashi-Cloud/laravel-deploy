@@ -31,7 +31,7 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="btn w-100" id="contact-tab" data-bs-toggle="tab"
                                         data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
-                                        aria-selected="false">Contact</button>
+                                        aria-selected="false">Server Info</button>
                                 </li>
                             </ul>
                         </div>
@@ -41,7 +41,7 @@
                                     <form action="{{ route('projects.update', $project) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        @include('projects.form')
+                                        @include('projects.forms.basic')
                                     </form>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...

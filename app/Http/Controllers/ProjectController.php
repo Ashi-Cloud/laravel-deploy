@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Server;
 use App\Models\Project;
-use App\Http\Requests\Projects\ProjectUpdateRequest;
+use App\Http\Requests\Projects\BasicInfoRequest;
 
 class ProjectController
 {
@@ -13,13 +13,13 @@ class ProjectController
         view()->composer([
             'projects.create',
             'projects.edit'
-        ],function($view){
-            $servers = Server::query()->get(['id','name']);
-            $view->with('servers',$servers);
+        ], function ($view) {
+            $servers = Server::query()->get(['id', 'name']);
+            $view->with('servers', $servers);
             return $view;
-        });    
+        });
     }
-    
+
     public function index()
     {
         $projects = Project::query()->withLastDeployed()->paginate(50);
@@ -31,14 +31,13 @@ class ProjectController
         return view('projects.create');
     }
 
-    public function store(ProjectUpdateRequest $projectUpdateRequest)
+    public function store(BasicInfoRequest $request)
     {
-        Project::create(
-            $projectUpdateRequest->validated()
+        $project = Project::create(
+            $request->validated()
         );
 
-        session()->flash('alert-success','Project Created Succesfully');
-        return to_route('projects.index');
+        return to_route('projects.edit', $project->id)->with('alert-success', 'Project Created Succesfully');
     }
 
     public function edit(Project $project)
@@ -46,14 +45,13 @@ class ProjectController
         return view('projects.edit', compact('project'));
     }
 
-    public function update(ProjectUpdateRequest $projectUpdateRequest, Project $project)
+    public function update(BasicInfoRequest $request, Project $project)
     {
         $project->update(
-            $projectUpdateRequest->validated()
+            $request->validated()
         );
 
-        session()->flash('alert-success','Project Updated Succesfully');
-        return to_route('projects.index');
+        return back()->with('alert-success', 'Project Updated Succesfully');
     }
 
     public function show(Project $project)
@@ -64,7 +62,6 @@ class ProjectController
     public function destroy(Project $project)
     {
         $project->delete();
-        session()->flash('alert-success','Project Deleted Succesfully');
-        return to_route('projects.index');
+        return to_route('projects.index')->with('alert-success', 'Project Deleted Succesfully');
     }
 }
