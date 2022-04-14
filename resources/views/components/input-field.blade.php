@@ -3,7 +3,7 @@
 @php
     $name = $name ?? 'field';
     $id = $id ?? $name;
-    $title = $title ?? Str::of($name)->replace(['-','_'], ' ')->title();
+    $title = Str::of($title ?? Str::of($name)->replace(['-','_'], ' '))->title();
     $type = $type ?? 'text';
 
     $options = $options ?? [];
