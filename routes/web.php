@@ -25,13 +25,22 @@ Route::get('/', function () {
 
 Auth::routes([ 'register' => false ]);
 
-
 Route::middleware('auth')->group(function(){
-
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('projects', ProjectController::class);
     Route::resource('servers', ServerController::class);
-    Route::get('projects/{project}/deployments', DeploymentController::class)->name('projects.deployments');
+
+    Route::prefix('projects')->name('projects.')->group(function(){
+        Route::resource('/', ProjectController::class)->parameter('', 'project');
+
+        Route::prefix('{project}')->group(function(){
+            Route::get('deployments', DeploymentController::class)->name('deployments');
+
+            Route::prefix('update')->name('update.')->group(function(){
+                Route::put('server', [ProjectController::class, 'updateServer'])->name('server');
+                Route::put('repository', [ProjectController::class, 'updateRepository'])->name('repository');
+            });
+        });
+    });
 
 });
