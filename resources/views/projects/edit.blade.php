@@ -24,13 +24,13 @@
                                         aria-selected="true">Basic Info</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="btn w-100" id="profile-tab" data-bs-toggle="tab"
-                                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                    <button class="btn w-100" id="repository-tab" data-bs-toggle="tab"
+                                        data-bs-target="#repository" type="button" role="tab" aria-controls="repository"
                                         aria-selected="false">Repository Info</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="btn w-100" id="contact-tab" data-bs-toggle="tab"
-                                        data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
+                                    <button class="btn w-100" id="server-tab" data-bs-toggle="tab"
+                                        data-bs-target="#server" type="button" role="tab" aria-controls="server"
                                         aria-selected="false">Server Info</button>
                                 </li>
                             </ul>
@@ -40,9 +40,11 @@
                                 <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
                                     @include('projects.forms.basic')
                                 </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...
+                                <div class="tab-pane fade" id="repository" role="tabpanel" aria-labelledby="repository-tab">
+                                    @include('projects.forms.repository')
                                 </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...
+                                <div class="tab-pane fade" id="server" role="tabpanel" aria-labelledby="server-tab">
+                                    @include('projects.forms.server')
                                 </div>
                             </div>
                         </div>
