@@ -28,9 +28,7 @@ class ProjectController
 
     public function create()
     {
-        return view('projects.create', [
-            'project' => new Project()
-        ]);
+        return view('projects.create');
     }
 
     public function store(ProjectUpdateRequest $projectUpdateRequest)

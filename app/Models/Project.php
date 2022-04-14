@@ -99,6 +99,18 @@ class Project extends Model
         ]);
     }
 
+    public function isDeployable()
+    {
+        $required_data = [
+            'server_id',
+            'git_repository',
+            'git_branch',
+            'server_path',
+        ];
+        
+        return collect($this->only($required_data))->filter(fn($value) => !empty($value))->count() === count($required_data);
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -32,17 +32,13 @@
                                         {{ $project->name }}
                                     </td>
                                     <td>
-                                        {{ $project->server->name }}
+                                        {{ $project->server->name ?? 'N/A' }}
                                     </td>
                                     <td>
                                         {{ $project->type }}
                                     </td>
                                     <td>
-                                        @if ($project->last_deployed)
-                                            <i>{{ $project->last_deployed }}</i>
-                                        @else
-                                            <i>Never</i>
-                                        @endif
+                                        <i>{{ $project->last_deployed ?: 'Never' }}</i>
                                     </td>
                                     <td>
                                         {{ $project->created_at->format('Y-m-d') }}

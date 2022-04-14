@@ -23,24 +23,35 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|max:191',
-            'server' => 'required|exists:servers,id',
-            'git_repository' => 'required|max:191',
-            'git_branch' => 'required|max:191',
-            'server_path' => 'required|max:191',
+
+        $rules = [
+            'name' => 'bail|required|max:191',
         ];
-    }
 
-    public function validated($key = null, $default = null)
-    {
-        $data = parent::validated($key, $default);
-
-        if (is_array($data) && isset($data['server'])) {
-            $data['server_id'] = $data['server'];
-            unset($data['server']);
+        if(!empty($this->project)){
+            $rules = array_merge($rules, [
+                'server_id' => 'bail|required|exists:servers,id',
+                'git_repository' => 'bail|required|max:191',
+                'git_branch' => 'bail|required|max:191',
+                'server_path' => 'bail|required|max:191',
+            ]);
         }
 
-        return $data;
+        return $rules;
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {   
+        $data = [
+            'server_id' => $this->get('server'),
+        ];
+        
+        $this->merge($data);
+        request()->merge($this->all());
     }
 }

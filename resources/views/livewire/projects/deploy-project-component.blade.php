@@ -1,7 +1,9 @@
 <div wire:poll.3s>
     <div class="row">
         <div class="col-md-12 text-end">
-            @if ($activeDeployment)
+            @if(!$project->isDeployable())
+                Required information missing in project.
+            @elseif ($activeDeployment)
                 <div class="row">
                     <div class="col-md-4">
                         <strong>Status:</strong> Active 
