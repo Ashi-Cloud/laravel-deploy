@@ -23,7 +23,6 @@ class BasicInfoRequest extends FormRequest
      */
     public function rules()
     {
-
         $rules = [
             'name' => 'bail|required|max:191',
             'description' => 'bail|nullable|max:191',

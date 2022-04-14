@@ -38,11 +38,7 @@
                         <div class="col-md-10">
                             <div class="tab-content p-2" id="myTabContent">
                                 <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
-                                    <form action="{{ route('projects.update', $project) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        @include('projects.forms.basic')
-                                    </form>
+                                    @include('projects.forms.basic')
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...
                                 </div>

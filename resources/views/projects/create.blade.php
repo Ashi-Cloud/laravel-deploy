@@ -15,10 +15,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('projects.store') }}" method="POST">
-                        @csrf
-                        @include('projects.forms.basic')
-                    </form>
+                    @include('projects.forms.basic')
                 </div>
             </div>
         </div>
