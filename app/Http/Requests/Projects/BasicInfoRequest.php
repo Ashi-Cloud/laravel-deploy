@@ -26,9 +26,10 @@ class BasicInfoRequest extends FormRequest
 
         $rules = [
             'name' => 'bail|required|max:191',
+            'description' => 'bail|nullable|max:191',
         ];
 
-        if(!empty($this->project)){
+        if(false && !empty($this->project)){
             $rules = array_merge($rules, [
                 'server_id' => 'bail|required|exists:servers,id',
                 'git_repository' => 'bail|required|max:191',

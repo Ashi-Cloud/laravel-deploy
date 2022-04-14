@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->string('git_ssh_key')->nullable()->after('git_branch');
 
+            $table->string('description')->nullable()->after('name');
             $table->text('shared_files')->nullable()->after('server_path');
             $table->text('shared_directories')->nullable()->after('server_path');
         });
@@ -40,7 +41,7 @@ return new class extends Migration
             $table->string('git_repository')->nullable(false)->change();
             $table->string('server_path')->nullable(false)->change();
 
-            $table->dropColumn('git_ssh_key', 'shared_files', 'shared_directories');
+            $table->dropColumn('description', 'git_ssh_key', 'shared_files', 'shared_directories');
         });
     }
 };
