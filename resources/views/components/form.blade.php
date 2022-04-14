@@ -1,4 +1,4 @@
-@props(['action', 'method'])
+@props(['action', 'method', 'confirm'])
 
 @php
     $action = $action ?? '';
@@ -9,7 +9,12 @@
     }
 @endphp
 
-<form action="{{ $action }}" method="{{ $form_method }}">
+<form 
+    action="{{ $action }}"
+    method="{{ $form_method }}"
+    @isset($confirm) data-confirm="{{ $confirm }}" @endisset
+    {{ $attributes }}
+>
     @if ($form_method == 'POST')
         @csrf
         @method($method)

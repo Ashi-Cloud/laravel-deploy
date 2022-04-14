@@ -53,13 +53,11 @@
                                         <a href="{{ route('projects.edit', $project) }}" class="btn btn-sm btn-success" title="Edit Project">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
-                                        <form class="d-inline-block" action="{{ route('projects.destroy', $project) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
+                                        <x-form class="d-inline-block" :action="route('projects.destroy', $project)" method="DELETE" confirm="Are you sure, you want to delete this project?">
                                             <button class="btn btn-sm btn-danger" title="Delete Project">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
-                                        </form>
+                                        </x-form>
                                     </td>
                                 </tr>
                             @endforeach
