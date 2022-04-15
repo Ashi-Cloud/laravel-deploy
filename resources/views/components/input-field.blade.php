@@ -10,6 +10,11 @@
     $option_key = $options['key'] ?? 'id';
     $option_text = $options['text'] ?? 'name';
     $select_options = $options['items'] ?? [];
+
+    $attributes = $attributes->class(['form-control']);
+    $attributes['id'] = $id;
+    $attributes['name'] = $name;
+    $attributes['aria-describedby'] = 'field_info_' . $name;
 @endphp
 
 <div class="row align-items-center mb-3 {{ $type == 'hidden' ? 'd-none' : '' }}">
@@ -19,7 +24,7 @@
 
     <div class="col-md-6">
         @if ($type == 'select')
-            <select name="{{ $name }}" id="{{ $id }}" class="form-control">
+            <select {{ $attributes }}>
                 <option value="">{{ $placeholder ?? $title }}</option>
                 
                 @foreach ($select_options as $select_options)
@@ -33,8 +38,10 @@
                     </option>
                 @endforeach
             </select>
+        @elseif($type == 'textarea')
+            <textarea {{ $attributes }}>{{ old($name, $value ?? null) }}</textarea>
         @else
-            <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}" value="{{ old($name, $value ?? null) }}" class="form-control" aria-describedby="field_info_{{ $name }}">
+            <input type="{{ $type }}" value="{{ old($name, $value ?? null) }}" {{ $attributes }}>
         @endif
         
         @isset($description)
