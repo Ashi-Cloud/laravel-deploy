@@ -54,3 +54,47 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        jQuery(document).ready(function ($) {
+            let updateQueryParams = function(params, _url, return_url){
+                try {
+                    let url = _url || window.location.href
+                    url = new URL(url);
+
+                    params.forEach(function(param){
+                        if(param.value){
+                            url.searchParams.set(param.name, param.value);
+                        }else{
+                            url.searchParams.delete(param.name);
+                        }
+                    });
+
+                    let newUrl = url.toString();
+
+                    if(return_url){
+                        return newUrl;
+                    }
+
+                    window.history.pushState({path: newUrl}, '', newUrl);
+                } catch (e) {console.log(e)}
+
+                if(return_url){
+                    return _url;
+                }
+            }
+
+            $('[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
+                updateQueryParams([
+                    {name: 'tab', value: $(this).data('bs-target').replace('#', '')}
+                ])
+            })
+
+            let urlParams = new URLSearchParams(window.location.search);
+            let tab = '#' + (urlParams.get('tab') || 'basic-info');
+
+            $('[data-bs-toggle="tab"][data-bs-target="' + tab + '"]').tab('show')
+        });    
+    </script>    
+@endpush

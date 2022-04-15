@@ -12,7 +12,7 @@
     $select_options = $options['items'] ?? [];
 @endphp
 
-<div class="row align-items-center mb-3">
+<div class="row align-items-center mb-3 {{ $type == 'hidden' ? 'd-none' : '' }}">
     <div class="col-md-3 text-md-end">
         <label for="{{ $id }}">{{ $title }}</label>
     </div>
@@ -34,7 +34,7 @@
                 @endforeach
             </select>
         @else
-            <input :type="$type" name="{{ $name }}" id="{{ $id }}" value="{{ old($name, $value ?? null) }}" class="form-control" aria-describedby="field_info_{{ $name }}">
+            <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}" value="{{ old($name, $value ?? null) }}" class="form-control" aria-describedby="field_info_{{ $name }}">
         @endif
         
         @isset($description)

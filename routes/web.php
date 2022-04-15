@@ -35,11 +35,6 @@ Route::middleware('auth')->group(function(){
 
         Route::prefix('{project}')->group(function(){
             Route::get('deployments', DeploymentController::class)->name('deployments');
-
-            Route::prefix('update')->name('update.')->group(function(){
-                Route::put('server', [ProjectController::class, 'updateServer'])->name('server');
-                Route::put('repository', [ProjectController::class, 'updateRepository'])->name('repository');
-            });
         });
     });
 

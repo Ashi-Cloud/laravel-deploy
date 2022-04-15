@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Server;
 use App\Models\Project;
-use App\Http\Requests\Projects\BasicInfoRequest;
+use App\Http\Requests\Projects\ProjectRequest;
 
 class ProjectController
 {
@@ -31,7 +31,7 @@ class ProjectController
         return view('projects.create');
     }
 
-    public function store(BasicInfoRequest $request)
+    public function store(ProjectRequest $request)
     {
         $project = Project::create(
             $request->validated()
@@ -45,7 +45,7 @@ class ProjectController
         return view('projects.edit', compact('project'));
     }
 
-    public function update(BasicInfoRequest $request, Project $project)
+    public function update(ProjectRequest $request, Project $project)
     {
         $project->update(
             $request->validated()
