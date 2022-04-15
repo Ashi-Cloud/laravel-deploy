@@ -32,12 +32,28 @@ class ProjectRequest extends FormRequest
             return [
                 'git_repository' => 'bail|required|max:191',
                 'git_branch' => 'bail|required|max:191',
+                'git_generate_key' => [
+                    'bail',
+                    'nullable',
+                    function($attribute, $value, $fail){
+                        if(empty($this->project->server_id)){
+                            $fail('Please choose a server first to generate a key.');
+                        }
+                    }
+                ],
             ];
         }
         
         return [
             'name' => 'bail|required|max:191',
             'description' => 'bail|nullable|max:191',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'server_id' => 'server'
         ];
     }
 }

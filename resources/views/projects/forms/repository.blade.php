@@ -7,8 +7,15 @@
     </div>
 
     <x-input-field name="repo_form" type="hidden" value="1"/>
-    <x-input-field name="git_repository" title="Repository" :value="$project->git_repository ?? null"/>
-    <x-input-field name="git_branch" title="branch" :value="$project->git_branch ?? null"/>
+    <x-input-field name="git_repository" title="Repository" :value="$project->git_repository"/>
+    <x-input-field name="git_branch" title="branch" :value="$project->git_branch"/>
+
+    @if (!empty($git_public_key = $project->git_public_key ?? null))
+        <x-input-field name="git_public_key" type="textarea" rows="14" title="Public Key" :value="$git_public_key" readonly />
+    @endif
+
+    <x-input-field name="git_generate_key" type="checkbox" title="Generate new key" value="1" />
+
 
     <div class="row align-items-center mb-3">
         <div class="col-md-9 text-end">

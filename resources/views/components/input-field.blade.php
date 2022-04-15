@@ -11,7 +11,12 @@
     $option_text = $options['text'] ?? 'name';
     $select_options = $options['items'] ?? [];
 
-    $attributes = $attributes->class(['form-control']);
+    $attributes = $attributes->class([
+        match($type){
+            'checkbox', 'radio' => 'form-check-input',
+            default => 'form-control',
+        }
+    ]);
     $attributes['id'] = $id;
     $attributes['name'] = $name;
     $attributes['aria-describedby'] = 'field_info_' . $name;
@@ -31,8 +36,8 @@
                     @php($select_options = is_object($select_options) ? $select_options : (object)$select_options)
 
                     <option
-                        value="{{ $value = $select_options->{$option_key} }}"
-                        @selected($value == old($name, $value ?? null))
+                        value="{{ $option_value = $select_options->{$option_key} }}"
+                        @selected($option_value == old($name, $value ?? null))
                     >
                         {{ $select_options->{$option_text} }}
                     </option>

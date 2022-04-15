@@ -24,14 +24,14 @@
                                         aria-selected="true">Basic Info</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="btn w-100" id="repository-tab" data-bs-toggle="tab"
-                                        data-bs-target="#repository" type="button" role="tab" aria-controls="repository"
-                                        aria-selected="false">Repository Info</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
                                     <button class="btn w-100" id="server-tab" data-bs-toggle="tab"
                                         data-bs-target="#server" type="button" role="tab" aria-controls="server"
                                         aria-selected="false">Server Info</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="btn w-100" id="repository-tab" data-bs-toggle="tab"
+                                        data-bs-target="#repository" type="button" role="tab" aria-controls="repository"
+                                        aria-selected="false">Repository Info</button>
                                 </li>
                             </ul>
                         </div>

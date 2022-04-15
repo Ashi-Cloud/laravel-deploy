@@ -7,8 +7,8 @@
     </div>
 
     <x-input-field name="server_form" type="hidden" value="1"/>
-    <x-input-field name="server_id" title="Server" type="select" :options="['items' => $servers]" :value="$project->server_id ?? null"/>
-    <x-input-field name="server_path" :value="$project->server_path ?? null"/>
+    <x-input-field name="server_id" title="Server" type="select" :options="['items' => $servers]" :value="$project->server_id"/>
+    <x-input-field name="server_path" :value="$project->server_path"/>
 
     <div class="row align-items-center mb-3">
         <div class="col-md-9 text-end">

@@ -47,9 +47,9 @@ class ProjectController
 
     public function update(ProjectRequest $request, Project $project)
     {
-        $project->update(
-            $request->validated()
-        );
+        $request->git_generate_key && $project->generateSshKey();
+        $project->fill($request->validated());
+        $project->save();
 
         return back()->with('alert-success', 'Project Updated Succesfully');
     }

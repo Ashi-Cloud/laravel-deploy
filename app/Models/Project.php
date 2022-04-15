@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
+use App\Services\Deploy\SSH\SshKey;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,7 +11,7 @@ class Project extends Model
 {
     use HasFactory;
     
-    protected $guarded = [];
+    protected $fillable = ['name', 'server_id', 'server_path', 'git_repository', 'git_branch', 'git_ssh_key', 'type', 'shared_directories', 'shared_files'];
 
     const TYPE_PRODUCTION = 'production';
     const TYPE_STAGING = 'staging';
@@ -97,6 +97,18 @@ class Project extends Model
             'runtime' => now()->diffInMilliseconds($deployment->created_at),
             'status' => $status,
         ]);
+    }
+
+    public function generateSshKey($save = false)
+    {
+        $this->git_ssh_key = $this->server_id ? SshKey::generate($this, true) : null;
+
+        if($save) $this->save();
+    }
+
+    protected function getGitPublicKeyAttribute()
+    {
+        return $this->server_id ? SshKey::publicKey($this) : null;
     }
 
     public function isDeployable()
