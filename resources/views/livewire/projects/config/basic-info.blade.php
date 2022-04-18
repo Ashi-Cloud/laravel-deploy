@@ -1,4 +1,4 @@
-<x-form :action="route('projects.store')" method="POST" wire:submit.prevent="save">
+<x-form method="POST" wire:submit.prevent="save">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h6>Basic Info</h6>

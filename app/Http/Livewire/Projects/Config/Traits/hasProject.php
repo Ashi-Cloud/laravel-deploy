@@ -37,7 +37,7 @@ trait hasProject
         if($this->project->wasRecentlyCreated){
             return to_route('projects.edit', $this->project->id)->with('alert-success', 'Project Created Succesfully');
         }
-        
-        $this->emit('success', true);
+
+        $this->emitTo('flash-message', 'message', ['type' => 'success', 'message' => $this->success_message ?? 'Project info Updated Succesfully']);
     }
 }

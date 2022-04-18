@@ -8,6 +8,8 @@ class ServerInfo extends Component
 {
     use Traits\hasProject;
 
+    protected $success_message = 'Server info Updated Succesfully';
+
     public $servers = [];
 
     protected $validationAttributes = [
