@@ -6,8 +6,8 @@
         </div>
     </div>
 
-    <x-input-field name="name" description="The project directory name." wire:model="name"/>
-    <x-input-field name="description" wire:model="description"/>
+    <x-input-field name="name" description="The project directory name." wire:model.defer="name"/>
+    <x-input-field name="description" wire:model.defer="description"/>
 
     <div class="row align-items-center mb-3">
         <div class="col-md-9 text-end">

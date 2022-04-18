@@ -6,14 +6,14 @@
         </div>
     </div>
 
-    <x-input-field name="git_repository" title="Repository" wire:model="git_repository"/>
-    <x-input-field name="git_branch" title="branch" wire:model="git_branch"/>
+    <x-input-field name="git_repository" title="Repository" wire:model.defer="git_repository"/>
+    <x-input-field name="git_branch" title="branch" wire:model.defer="git_branch"/>
 
     @if (!empty($git_public_key = $project->git_public_key ?? null))
         <x-input-field name="git_public_key" type="textarea" rows="14" title="Public Key" :value="$git_public_key" readonly />
     @endif
 
-    <x-input-field name="git_generate_key" type="checkbox" title="Generate new key" value="1" wire:model="git_generate_key"/>
+    <x-input-field name="git_generate_key" type="checkbox" title="Generate new key" value="1" wire:model.defer="git_generate_key"/>
 
 
     <div class="row align-items-center mb-3">

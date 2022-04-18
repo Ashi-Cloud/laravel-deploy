@@ -6,8 +6,8 @@
         </div>
     </div>
 
-    <x-input-field name="server_id" title="Server" type="select" :options="['items' => $servers]" wire:model="server_id"/>
-    <x-input-field name="server_path" wire:model="server_path"/>
+    <x-input-field name="server_id" title="Server" type="select" :options="['items' => $servers]" wire:model.defer="server_id"/>
+    <x-input-field name="server_path" wire:model.defer="server_path"/>
 
     <div class="row align-items-center mb-3">
         <div class="col-md-9 text-end">
