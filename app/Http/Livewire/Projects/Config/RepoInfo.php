@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class RepoInfo extends Component
 {
-    use Traits\hasProject;
+    use Traits\HasProject;
 
     protected $success_message = 'Repository info Updated Succesfully';
 

@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class ServerInfo extends Component
 {
-    use Traits\hasProject;
+    use Traits\HasProject;
 
     protected $success_message = 'Server info Updated Succesfully';
 

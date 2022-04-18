@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Projects\Config\Traits;
 use App\Models\Server;
 use App\Models\Project;
 
-trait hasProject
+trait HasProject
 {
     public Project $project;
 

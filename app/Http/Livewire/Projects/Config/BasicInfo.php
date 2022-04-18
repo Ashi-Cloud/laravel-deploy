@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class BasicInfo extends Component
 {
-    use Traits\hasProject;
+    use Traits\HasProject;
 
     protected $success_message = 'Basic info Updated Succesfully';
 
