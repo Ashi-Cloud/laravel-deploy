@@ -1,4 +1,4 @@
-<x-form :action="route('projects.update', $project)" method="PUT">
+<x-form wire:submit.prevent="save">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h6>Repository Info</h6>
@@ -6,15 +6,14 @@
         </div>
     </div>
 
-    <x-input-field name="repo_form" type="hidden" value="1"/>
-    <x-input-field name="git_repository" title="Repository" :value="$project->git_repository"/>
-    <x-input-field name="git_branch" title="branch" :value="$project->git_branch"/>
+    <x-input-field name="git_repository" title="Repository" wire:model="git_repository"/>
+    <x-input-field name="git_branch" title="branch" wire:model="git_branch"/>
 
     @if (!empty($git_public_key = $project->git_public_key ?? null))
         <x-input-field name="git_public_key" type="textarea" rows="14" title="Public Key" :value="$git_public_key" readonly />
     @endif
 
-    <x-input-field name="git_generate_key" type="checkbox" title="Generate new key" value="1" />
+    <x-input-field name="git_generate_key" type="checkbox" title="Generate new key" value="1" wire:model="git_generate_key"/>
 
 
     <div class="row align-items-center mb-3">

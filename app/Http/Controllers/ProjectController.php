@@ -4,22 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Server;
 use App\Models\Project;
-use App\Http\Requests\Projects\ProjectRequest;
 
 class ProjectController
 {
-    public function __construct()
-    {
-        view()->composer([
-            'projects.create',
-            'projects.edit'
-        ], function ($view) {
-            $servers = Server::query()->get(['id', 'name']);
-            $view->with('servers', $servers);
-            return $view;
-        });
-    }
-
     public function index()
     {
         $projects = Project::query()->withLastDeployed()->paginate(50);
@@ -31,27 +18,9 @@ class ProjectController
         return view('projects.create');
     }
 
-    public function store(ProjectRequest $request)
-    {
-        $project = Project::create(
-            $request->validated()
-        );
-
-        return to_route('projects.edit', $project->id)->with('alert-success', 'Project Created Succesfully');
-    }
-
     public function edit(Project $project)
     {
         return view('projects.edit', compact('project'));
-    }
-
-    public function update(ProjectRequest $request, Project $project)
-    {
-        $request->git_generate_key && $project->generateSshKey();
-        $project->fill($request->validated());
-        $project->save();
-
-        return back()->with('alert-success', 'Project Updated Succesfully');
     }
 
     public function show(Project $project)

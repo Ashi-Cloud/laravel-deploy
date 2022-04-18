@@ -30,12 +30,6 @@ Route::middleware('auth')->group(function(){
 
     Route::resource('servers', ServerController::class);
 
-    Route::prefix('projects')->name('projects.')->group(function(){
-        Route::resource('/', ProjectController::class)->parameter('', 'project');
-
-        Route::prefix('{project}')->group(function(){
-            Route::get('deployments', DeploymentController::class)->name('deployments');
-        });
-    });
-
+    Route::get('projects/{project}/deployments', DeploymentController::class)->name('projects.deployments');
+    Route::resource('projects', ProjectController::class)->except(['update', 'store']);
 });

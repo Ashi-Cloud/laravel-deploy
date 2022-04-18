@@ -38,13 +38,13 @@
                         <div class="col-md-10">
                             <div class="tab-content p-2" id="myTabContent">
                                 <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
-                                    @include('projects.forms.basic')
+                                    <livewire:projects.config.basic-info :project="$project"/>
                                 </div>
                                 <div class="tab-pane fade" id="repository" role="tabpanel" aria-labelledby="repository-tab">
-                                    @include('projects.forms.repository')
+                                    <livewire:projects.config.repo-info :project="$project"/>
                                 </div>
                                 <div class="tab-pane fade" id="server" role="tabpanel" aria-labelledby="server-tab">
-                                    @include('projects.forms.server')
+                                    <livewire:projects.config.server-info :project="$project"/>
                                 </div>
                             </div>
                         </div>

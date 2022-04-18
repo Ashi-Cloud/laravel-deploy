@@ -11,7 +11,7 @@ class Project extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['name', 'server_id', 'server_path', 'git_repository', 'git_branch', 'git_ssh_key', 'type', 'shared_directories', 'shared_files'];
+    protected $fillable = ['name', 'description', 'server_id', 'server_path', 'git_repository', 'git_branch', 'git_ssh_key', 'type', 'shared_directories', 'shared_files'];
 
     const TYPE_PRODUCTION = 'production';
     const TYPE_STAGING = 'staging';

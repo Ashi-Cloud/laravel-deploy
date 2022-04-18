@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @include('projects.forms.basic')
+                    <livewire:projects.config.basic-info />
                 </div>
             </div>
         </div>
