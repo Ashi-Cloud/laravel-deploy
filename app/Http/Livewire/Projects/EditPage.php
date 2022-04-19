@@ -8,11 +8,11 @@ use Livewire\Component;
 class EditPage extends Component
 {
     public Project $project;
-    public $tab = 'basic';
+    public $tab;
     public $availableTabs = [
-        'basic' => 'Basic Info',
-        'server' => 'Server Info',
-        'repo' => 'Repository Info',
+        'basic-info' => 'Basic Info',
+        'server-info' => 'Server Info',
+        'repo-info' => 'Repository Info',
     ];
 
     protected $queryString = ['tab'];
@@ -33,6 +33,6 @@ class EditPage extends Component
             $this->tab = $availableTabs[0];
         }
 
-        return "projects.config.{$this->tab}-info";
+        return "projects.config.{$this->tab}";
     }
 }
