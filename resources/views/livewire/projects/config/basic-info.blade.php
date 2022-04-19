@@ -9,11 +9,5 @@
     <x-input-field name="name" description="The project directory name." wire:model.defer="name"/>
     <x-input-field name="description" wire:model.defer="description"/>
 
-    <div class="row align-items-center mb-3">
-        <div class="col-md-9 text-end">
-            <button class="btn btn-lg btn-success">
-                Save
-            </button>
-        </div>
-    </div>
+    <x-save-button />   
 </x-form>
