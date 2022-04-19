@@ -27,10 +27,16 @@ class UpdateCode extends Task
         if(
             !$this->host->test("[ -f {$bare}/HEAD ]")
             || !$this->host->test("cd $bare && {$git_command} remote update")
-            || !$this->host->test("cd $bare && {$git_command} archive {$this->branch} | tar -x -f - -C {$currentReleasePath} 2>&1")
         ){
             throw new Exception("Repository not found. Please make sure you have the correct access rights and the repository exists.");
         }
+
+        $branch_response = $this->host->runCommand("cd $bare && {$git_command} ls-remote --heads {$this->repository} {$this->branch}");
+        if(empty(trim($branch_response))){
+            throw new Exception("The branch not found.  Not a valid object name: {$this->branch}.");
+        }
+
+        $this->host->runCommand("cd $bare && {$git_command} archive {$this->branch} | tar -x -f - -C {$currentReleasePath} 2>&1");
 
         $this->host->runCommand("echo {$currentReleaseName} > {$this->deployPath}/.dep/latest_release");
         
