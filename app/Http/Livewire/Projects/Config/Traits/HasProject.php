@@ -27,12 +27,12 @@ trait HasProject
         $data = $this->validate();
 
         if($data['git_generate_key'] ?? false){
-            $this->project->generateSshKey();
+            $this->project->generateSshKeys();
             $this->git_generate_key = false;
         }
         
         if($data['git_remove_key'] ?? false){
-            $this->project->removeSshKey();
+            $this->project->removeSshKeys();
             $this->git_remove_key = false;
         }
     

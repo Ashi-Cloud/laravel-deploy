@@ -11,7 +11,7 @@ class SshKey
         return DeployHost::createFromProject($project, fn() => null);
     }
 
-    static public function generate($project, $overwrite = false)
+    static public function generateKeys($project, $overwrite = false)
     {
         $host = self::getHost($project);
 
@@ -28,7 +28,7 @@ class SshKey
         }
     }
 
-    static public function publicKey($project)
+    static public function getPublicKey($project)
     {
         $host = self::getHost($project);
 
@@ -42,7 +42,7 @@ class SshKey
         return $host->runCommand("cat {$pub_key_name}");
     }
 
-    static public function remove($project)
+    static public function removeKeys($project)
     {
         $host = self::getHost($project);
 

@@ -99,16 +99,16 @@ class Project extends Model
         ]);
     }
 
-    public function generateSshKey($save = false)
+    public function generateSshKeys($save = false)
     {
-        $this->git_ssh_key = $this->server_id ? SshKey::generate($this, true) : null;
+        $this->git_ssh_key = $this->server_id ? SshKey::generateKeys($this, true) : null;
 
         if($save) $this->save();
     }
 
-    public function removeSshKey($save = false)
+    public function removeSshKeys($save = false)
     {
-        $this->server_id && SshKey::remove($this);
+        $this->server_id && SshKey::removeKeys($this);
         $this->git_ssh_key = null;
 
         if($save) $this->save();
@@ -116,7 +116,7 @@ class Project extends Model
 
     protected function getGitPublicKeyAttribute()
     {
-        return $this->server_id ? SshKey::publicKey($this) : null;
+        return $this->server_id ? SshKey::getPublicKey($this) : null;
     }
 
     public function isDeployable()
