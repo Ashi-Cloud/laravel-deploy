@@ -31,7 +31,8 @@
         </nav>
 
         <main class="py-4">
-            @include('layouts.flash-messages')
+            <livewire:flash-message />
+            
             @yield('content')
         </main>
     </div>

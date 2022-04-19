@@ -25,13 +25,11 @@ Route::get('/', function () {
 
 Auth::routes([ 'register' => false ]);
 
-
 Route::middleware('auth')->group(function(){
-
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('projects', ProjectController::class);
     Route::resource('servers', ServerController::class);
-    Route::get('projects/{project}/deployments', DeploymentController::class)->name('projects.deployments');
 
+    Route::get('projects/{project}/deployments', DeploymentController::class)->name('projects.deployments');
+    Route::resource('projects', ProjectController::class)->except(['update', 'store']);
 });

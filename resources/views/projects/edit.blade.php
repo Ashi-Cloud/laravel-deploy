@@ -15,11 +15,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('projects.update', $project) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        @include('projects.form')
-                    </form>
+                    <livewire:projects.edit-page :project="$project">                
                 </div>
             </div>
         </div>

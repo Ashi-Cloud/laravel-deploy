@@ -32,17 +32,13 @@
                                         {{ $project->name }}
                                     </td>
                                     <td>
-                                        {{ $project->server->name }}
+                                        {{ $project->server->name ?? 'N/A' }}
                                     </td>
                                     <td>
                                         {{ $project->type }}
                                     </td>
                                     <td>
-                                        @if ($project->last_deployed)
-                                            <i>{{ $project->last_deployed }}</i>
-                                        @else
-                                            <i>Never</i>
-                                        @endif
+                                        <i>{{ $project->last_deployed ?: 'Never' }}</i>
                                     </td>
                                     <td>
                                         {{ $project->created_at->format('Y-m-d') }}
@@ -57,13 +53,11 @@
                                         <a href="{{ route('projects.edit', $project) }}" class="btn btn-sm btn-success" title="Edit Project">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
-                                        <form class="d-inline-block" action="{{ route('projects.destroy', $project) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
+                                        <x-form class="d-inline-block" :action="route('projects.destroy', $project)" method="DELETE" confirm="Are you sure, you want to delete this project?">
                                             <button class="btn btn-sm btn-danger" title="Delete Project">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
-                                        </form>
+                                        </x-form>
                                     </td>
                                 </tr>
                             @endforeach

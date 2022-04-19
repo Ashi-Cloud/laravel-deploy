@@ -15,10 +15,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('projects.store') }}" method="POST">
-                        @csrf
-                        @include('projects.form')
-                    </form>
+                    <livewire:projects.config.basic-info />
                 </div>
             </div>
         </div>

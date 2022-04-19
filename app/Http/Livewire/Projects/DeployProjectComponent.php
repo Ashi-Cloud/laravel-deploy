@@ -28,6 +28,11 @@ class DeployProjectComponent extends Component
             $this->emit('alert-warning', 'Already Deploying...');
             return;
         }
+
+        if ( !$this->project->isDeployable() ){
+            $this->emit('alert-warning', 'All project information is not provided...');
+            return;
+        }
         
         $this->project->createNewDeployment();
         

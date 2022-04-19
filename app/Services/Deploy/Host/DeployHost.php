@@ -84,7 +84,7 @@ class DeployHost extends Ssh
     public function test($command)
     {
         $true = '+' . array_rand(array_flip(['accurate', 'appropriate', 'correct', 'legitimate', 'precise', 'right', 'true', 'yes', 'indeed']));
-        return trim($this->runCommand("if $command; then echo $true; fi"),"\n") === $true;
+        return trim($this->runCommand("if $command > /dev/null 2>&1; then echo $true; fi"),"\n") === $true;
     }
 
     /**
