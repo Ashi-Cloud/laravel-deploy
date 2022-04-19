@@ -20,7 +20,7 @@ class UpdateSharedFilesAndDirectories extends Task
 
         $this->sharedFiles = array_unique([
             '.env',
-            ...$shared_data['directories'],
+            ...$shared_data['files'],
         ]);
     }
 
@@ -36,15 +36,12 @@ class UpdateSharedFilesAndDirectories extends Task
         foreach ($this->sharedDirectotories as $sharedDir) {
             $sharedDir = trim($sharedDir,'/');
 
-            if ( !$this->host->test("[ -d {$releasePath}/{$sharedDir} ]") ){
-                continue;
-            }
-
             $this->host->runCommand("[ -d {$sharedPath}/{$sharedDir} ] || mkdir {$sharedPath}/{$sharedDir}");
 
-            $this->host->runCommand("rsync -av {$releasePath}/{$sharedDir}/ {$sharedPath}/{$sharedDir}");
-
-            $this->host->runCommand("rm -rf {$releasePath}/{$sharedDir}");
+            if ( $this->host->test("[ -d {$releasePath}/{$sharedDir} ]") ){
+                $this->host->runCommand("rsync -av {$releasePath}/{$sharedDir}/ {$sharedPath}/{$sharedDir}");
+                $this->host->runCommand("rm -rf {$releasePath}/{$sharedDir}");
+            }
 
             $this->host->runCommand("ln -s {$sharedPath}/{$sharedDir} {$releasePath}/{$sharedDir}");
 
@@ -53,13 +50,11 @@ class UpdateSharedFilesAndDirectories extends Task
         foreach ($this->sharedFiles as $sharedFile) {
             $sharedFile = trim($sharedFile,'/');
 
-            if ( !$this->host->test("[ -f {$releasePath}/{$sharedFile} ]") ){
-                continue;
+            if ( $this->host->test("[ -f {$releasePath}/{$sharedFile} ]") ){
+                $this->host->runCommand("cp {$releasePath}/{$sharedFile} {$sharedPath}/{$sharedFile}");
             }
 
             $this->host->runCommand("[ -f {$sharedPath}/{$sharedFile} ] || touch {$sharedPath}/{$sharedFile}");
-
-            $this->host->runCommand("cp {$releasePath}/{$sharedFile}/ {$sharedPath}/{$sharedFile}");
 
             $this->host->runCommand("rm -f {$releasePath}/{$sharedFile}");
 
