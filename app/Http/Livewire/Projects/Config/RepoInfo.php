@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Projects\Config;
 
+use App\Models\Server;
 use Livewire\Component;
 
 class RepoInfo extends Component
@@ -43,6 +44,24 @@ class RepoInfo extends Component
     protected function updatedGitGenerateKey($value)
     {
         if($value){
+            $this->git_remove_key = false;
+        }
+    }
+
+    protected function initData()
+    {
+        $this->servers = Server::query()->get(['id', 'name']);
+    }
+
+    protected function beforeFill($data)
+    {
+        if($data['git_generate_key'] ?? false){
+            $this->project->generateSshKeys();
+            $this->git_generate_key = false;
+        }
+        
+        if($data['git_remove_key'] ?? false){
+            $this->project->removeSshKeys();
             $this->git_remove_key = false;
         }
     }

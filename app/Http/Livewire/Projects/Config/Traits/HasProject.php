@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Projects\Config\Traits;
 
-use App\Models\Server;
 use App\Models\Project;
 
 trait HasProject
@@ -17,8 +16,8 @@ trait HasProject
             $this->{$key} = $project->{$key};
         }
 
-        if(property_exists($this, 'servers')){
-            $this->servers = Server::query()->get(['id', 'name']);
+        if(method_exists($this, 'initData')){
+            $this->initData();
         }
     }
 
@@ -26,16 +25,10 @@ trait HasProject
     {
         $data = $this->validate();
 
-        if($data['git_generate_key'] ?? false){
-            $this->project->generateSshKeys();
-            $this->git_generate_key = false;
+        if(method_exists($this, 'beforeFill')){
+            $this->beforeFill($data);
         }
-        
-        if($data['git_remove_key'] ?? false){
-            $this->project->removeSshKeys();
-            $this->git_remove_key = false;
-        }
-    
+
         $this->project->fill($data);
         $this->project->save();
 
