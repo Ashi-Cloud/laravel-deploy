@@ -25,6 +25,10 @@ abstract class Task
         $this->deployPath = $deployApplication->deployPath;
         $this->branch = $deployApplication->branch;
         $this->repository = $deployApplication->repository;
+
+        if(method_exists($this, 'initData')){
+            $this->initData();
+        }
     }
 
     abstract public function run();

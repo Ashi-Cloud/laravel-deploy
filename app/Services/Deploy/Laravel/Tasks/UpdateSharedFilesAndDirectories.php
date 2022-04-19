@@ -6,13 +6,23 @@ use App\Services\Deploy\DeploymentTasks\Task;
 
 class UpdateSharedFilesAndDirectories extends Task
 {
-    protected $sharedDirectotories = [
-        'storage',
-    ];
+    protected $sharedDirectotories = [];
+    protected $sharedFiles = [];
 
-    protected $sharedFiles = [
-        '.env'
-    ];
+    protected function initData()
+    {
+        $shared_data = $this->project->getSharedFilesAndDirectories();
+
+        $this->sharedDirectotories = array_unique([
+            'storage',
+            ...$shared_data['directories'],
+        ]);
+
+        $this->sharedFiles = array_unique([
+            '.env',
+            ...$shared_data['directories'],
+        ]);
+    }
 
     public function run()
     {
