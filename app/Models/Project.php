@@ -106,6 +106,14 @@ class Project extends Model
         if($save) $this->save();
     }
 
+    public function removeSshKey($save = false)
+    {
+        $this->server_id && SshKey::remove($this);
+        $this->git_ssh_key = null;
+
+        if($save) $this->save();
+    }
+
     protected function getGitPublicKeyAttribute()
     {
         return $this->server_id ? SshKey::publicKey($this) : null;

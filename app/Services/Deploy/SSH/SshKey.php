@@ -41,4 +41,14 @@ class SshKey
 
         return $host->runCommand("cat {$pub_key_name}");
     }
+
+    static public function remove($project)
+    {
+        $host = self::getHost($project);
+
+        $key_name = $project->git_ssh_key;
+        $pub_key_name = "{$project->git_ssh_key}.pub";
+
+        $host->runCommand("rm -f $key_name $pub_key_name");
+    }
 }

@@ -24,11 +24,26 @@ class RepoInfo extends Component
                     }
                 }
             ],
+            'git_remove_key' => 'bail|nullable',
         ];
     }
 
     public function render()
     {
         return view('livewire.projects.config.repo-info');
+    }
+
+    protected function updatedGitRemoveKey($value)
+    {
+        if($value){
+            $this->git_generate_key = false;
+        }
+    }
+
+    protected function updatedGitGenerateKey($value)
+    {
+        if($value){
+            $this->git_remove_key = false;
+        }
     }
 }

@@ -30,6 +30,11 @@ trait HasProject
             $this->project->generateSshKey();
             $this->git_generate_key = false;
         }
+        
+        if($data['git_remove_key'] ?? false){
+            $this->project->removeSshKey();
+            $this->git_remove_key = false;
+        }
     
         $this->project->fill($data);
         $this->project->save();
