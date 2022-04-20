@@ -13,6 +13,7 @@ class EditPage extends Component
         'basic-info' => 'Basic Info',
         'server-info' => 'Server Info',
         'repo-info' => 'Repository Info',
+        'shared-directories' => 'Shared Directories',
     ];
 
     protected $queryString = ['tab'];

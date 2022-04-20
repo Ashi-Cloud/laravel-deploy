@@ -98,6 +98,21 @@ class Project extends Model
             'status' => $status,
         ]);
     }
+    
+    public function getSharedFilesAndDirectories()
+    {
+        return collect([
+            'files' => $this->shared_files,
+            'directories' => $this->shared_directories,
+        ])
+        ->map(function($items){
+            return collect(explode("\n", $items))
+                ->map(fn($i) => trim($i))
+                ->unique()
+                ->toArray();
+        })
+        ->toArray();        
+    }
 
     public function generateSshKeys($save = false)
     {
