@@ -8,7 +8,7 @@ class SharedDirectories extends Component
 {
     use Traits\HasProject;
 
-    protected $success_message = 'Shared files and directories updated Succesfully';
+    protected $success_message = 'Shared files and directories updated Succesfully.';
 
     protected $rules = [
         'shared_directories' => 'bail|nullable',

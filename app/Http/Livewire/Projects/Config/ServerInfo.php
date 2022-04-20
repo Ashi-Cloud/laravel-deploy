@@ -8,7 +8,7 @@ class ServerInfo extends Component
 {
     use Traits\HasProject;
 
-    protected $success_message = 'Server info Updated Succesfully';
+    protected $success_message = 'Server info updated succesfully.';
 
     public $servers = [];
 

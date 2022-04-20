@@ -9,7 +9,7 @@ class RepoInfo extends Component
 {
     use Traits\HasProject;
 
-    protected $success_message = 'Repository info Updated Succesfully';
+    protected $success_message = 'Repository info updated succesfully.';
 
     protected function rules()
     {
