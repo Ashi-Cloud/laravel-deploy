@@ -141,6 +141,13 @@ class Project extends Model
             return collect(explode("\n", $items))
                 ->map(fn($i) => trim($i))
                 ->unique()
+                ->filter(function($i){
+                    if(empty($i)) return false;
+                    
+                    $not_allowed = ['.', '..', '/', './', '../'];
+                    
+                    return !in_array($i, $not_allowed);
+                })
                 ->toArray();
         })
         ->toArray();        
