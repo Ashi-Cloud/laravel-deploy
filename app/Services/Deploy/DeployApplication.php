@@ -21,8 +21,8 @@ abstract class DeployApplication
     public function __construct(Project $project, Closure $output)
     {
         $this->project = $project;
-        $this->projectName = Str::of($project->name)->snake()->replace("_","")->title();
-        $this->deployPath = rtrim($project->server_path,"/")."/".$this->projectName;
+        $this->projectName = $project->deploy_directory_name;
+        $this->deployPath = $project->deploy_path;
         $this->repository = $project->git_repository;
         $this->branch = $project->git_branch;
         

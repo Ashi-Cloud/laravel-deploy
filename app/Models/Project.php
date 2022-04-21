@@ -2,16 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
+use App\Services\Deploy\Helpers\DotEnv;
+use App\Services\Deploy\Helpers\SshKey;
 use Illuminate\Database\Eloquent\Model;
-use App\Services\Deploy\SSH\SshKey;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['name', 'description', 'server_id', 'server_path', 'git_repository', 'git_branch', 'git_ssh_key', 'type', 'shared_directories', 'shared_files'];
+    protected $fillable = [
+        'name', 'description',
+        'server_id', 'server_path', 'env_variables',
+        'git_repository', 'git_branch', 'git_ssh_key',
+        'type', 'shared_directories', 'shared_files'
+    ];
 
     const TYPE_PRODUCTION = 'production';
     const TYPE_STAGING = 'staging';
@@ -97,6 +105,30 @@ class Project extends Model
             'runtime' => now()->diffInMilliseconds($deployment->created_at),
             'status' => $status,
         ]);
+    }
+
+    protected function deployDirectoryName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Str::of($this->name)->snake()->replace("_", "")->title(),
+        );
+    }
+
+    protected function deployPath(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => rtrim($this->server_path,"/")."/".$this->deploy_directory_name,
+        );
+    }
+    
+    protected function getEnvVariablesAttribute()
+    {
+        return DotEnv::get($this);
+    }
+
+    protected function setEnvVariablesAttribute($value)
+    {
+        DotEnv::save($this, $value);
     }
     
     public function getSharedFilesAndDirectories()
