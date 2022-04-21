@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Projects\Config;
 
-use App\Models\Server;
 use Livewire\Component;
 
 class RepoInfo extends Component
@@ -46,11 +45,6 @@ class RepoInfo extends Component
         if($value){
             $this->git_remove_key = false;
         }
-    }
-
-    protected function initData()
-    {
-        $this->servers = Server::query()->get(['id', 'name']);
     }
 
     protected function beforeFill($data)

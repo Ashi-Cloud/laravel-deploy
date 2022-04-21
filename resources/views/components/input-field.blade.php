@@ -1,4 +1,4 @@
-@props(['id', 'name', 'title', 'description', 'type', 'options', 'placeholder', 'value'])
+@props(['id', 'name', 'title', 'description', 'type', 'options', 'placeholder', 'value', 'cols'])
 
 @php
     $name = $name ?? 'field';
@@ -27,7 +27,7 @@
         <label for="{{ $id }}">{{ $title }}</label>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-{{ $cols ?? 6}}">
         @if ($type == 'select')
             <select {{ $attributes }}>
                 <option value="">{{ $placeholder ?? $title }}</option>

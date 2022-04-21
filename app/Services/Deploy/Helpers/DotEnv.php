@@ -2,17 +2,22 @@
 
 namespace App\Services\Deploy\Helpers;
 
+use App\Models\Project;
 use Illuminate\Support\Str;
 
 class DotEnv extends BaseHelper
 {
+    static protected function getEnvPath(Project $project)
+    {
+        return "$project->deploy_path/shared/.env";
+    }
 
-    static public function save($project, $content)
+    static public function save(Project $project, $content)
     {
         $host = self::getHost($project);
 
-        $shared_path = "$project->deploy_path/shared/";
-        $file_path = "{$shared_path}.env";
+        $file_path = self::getEnvPath($project);
+        $shared_path = dirname($file_path);
 
         if(!$host->test("[ -d {$shared_path} ]")){
             return false;
@@ -23,11 +28,11 @@ class DotEnv extends BaseHelper
         return rtrim($content, "\n") === rtrim($host->runCommand("cat {$file_path}"), "\n");
     }
 
-    static public function get($project)
+    static public function get(Project $project)
     {
         $host = self::getHost($project);
 
-        $file_path = "$project->deploy_path/shared/.env";
+        $file_path = self::getEnvPath($project);
 
         if(!$host->test("[ -f {$file_path} ]")){
             return null;

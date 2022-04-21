@@ -123,12 +123,12 @@ class Project extends Model
     
     protected function getEnvVariablesAttribute()
     {
-        return DotEnv::get($this);
+        return $this->server_id ? DotEnv::get($this) : null;
     }
 
     protected function setEnvVariablesAttribute($value)
     {
-        DotEnv::save($this, $value);
+        $this->server_id && DotEnv::save($this, $value);
     }
     
     public function getSharedFilesAndDirectories()
