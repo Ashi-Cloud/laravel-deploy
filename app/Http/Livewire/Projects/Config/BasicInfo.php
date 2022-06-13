@@ -8,7 +8,7 @@ class BasicInfo extends Component
 {
     use Traits\HasProject;
 
-    protected $success_message = 'Basic info Updated Succesfully';
+    protected $success_message = 'Basic info updated succesfully.';
 
     protected $rules = [
         'name' => 'bail|required|max:191',

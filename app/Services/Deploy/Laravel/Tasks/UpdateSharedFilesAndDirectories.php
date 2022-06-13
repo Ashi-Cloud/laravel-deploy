@@ -53,6 +53,10 @@ class UpdateSharedFilesAndDirectories extends Task
             if ( $this->host->test("[ -f {$releasePath}/{$sharedFile} ]") ){
                 $this->host->runCommand("cp {$releasePath}/{$sharedFile} {$sharedPath}/{$sharedFile}");
             }
+            
+            if ( $this->host->test("[ ! -f {$sharedPath}/{$sharedFile} ] && [ -f {$releasePath}/{$sharedFile}.example ]") ){
+                $this->host->runCommand("cp {$releasePath}/{$sharedFile}.example {$sharedPath}/{$sharedFile}");
+            }
 
             $this->host->runCommand("[ -f {$sharedPath}/{$sharedFile} ] || touch {$sharedPath}/{$sharedFile}");
 

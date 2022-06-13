@@ -1,11 +1,6 @@
-<x-form wire:submit.prevent="save">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h6>Repository Info</h6>
-            <hr>
-        </div>
-    </div>
+@extends('livewire.projects.config.base', ['heading' => 'Repository Info'])
 
+@section('form_fields')
     <x-input-field name="git_repository" title="Repository" wire:model.defer="git_repository"/>
     <x-input-field name="git_branch" title="branch" wire:model.defer="git_branch"/>
 
@@ -18,6 +13,4 @@
     @endif
 
     <x-input-field name="git_generate_key" type="checkbox" title="Generate new key pair" value="1" wire:model="git_generate_key"/>
-
-    <x-save-button />    
-</x-form>
+@endsection

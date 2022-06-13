@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Projects\Config;
 
+use App\Models\Server;
 use Livewire\Component;
 
 class ServerInfo extends Component
 {
     use Traits\HasProject;
 
-    protected $success_message = 'Server info Updated Succesfully';
+    protected $success_message = 'Server info updated succesfully.';
 
     public $servers = [];
 
@@ -24,5 +25,10 @@ class ServerInfo extends Component
     public function render()
     {
         return view('livewire.projects.config.server-info');
+    }
+
+    protected function initData()
+    {
+        $this->servers = Server::query()->get(['id', 'name']);
     }
 }

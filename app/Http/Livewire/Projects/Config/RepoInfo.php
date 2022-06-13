@@ -2,14 +2,13 @@
 
 namespace App\Http\Livewire\Projects\Config;
 
-use App\Models\Server;
 use Livewire\Component;
 
 class RepoInfo extends Component
 {
     use Traits\HasProject;
 
-    protected $success_message = 'Repository info Updated Succesfully';
+    protected $success_message = 'Repository info updated succesfully.';
 
     protected function rules()
     {
@@ -46,11 +45,6 @@ class RepoInfo extends Component
         if($value){
             $this->git_remove_key = false;
         }
-    }
-
-    protected function initData()
-    {
-        $this->servers = Server::query()->get(['id', 'name']);
     }
 
     protected function beforeFill($data)

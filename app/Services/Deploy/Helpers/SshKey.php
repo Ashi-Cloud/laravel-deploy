@@ -1,16 +1,9 @@
 <?php
 
-namespace App\Services\Deploy\SSH;
+namespace App\Services\Deploy\Helpers;
 
-use App\Services\Deploy\Host\DeployHost;
-
-class SshKey
+class SshKey extends BaseHelper
 {
-    static public function getHost($project)
-    {
-        return DeployHost::createFromProject($project, fn() => null);
-    }
-
     static public function generateKeys($project, $overwrite = false)
     {
         $host = self::getHost($project);
